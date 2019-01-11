@@ -76,6 +76,12 @@ test['AgeGroup'] = test['AgeGroup'].map(age_mapping)
 train = train.drop(['Age'], axis = 1)
 test = test.drop(['Age'], axis = 1)
 
+train = train.drop(['AgeGroup'], axis = 1)
+test = test.drop(['AgeGroup'], axis = 1)
+
+train = train.drop(['2-Hour serum insulin'], axis = 1)
+test = test.drop(['2-Hour serum insulin'], axis = 1)
+
 
 #choose model
 from sklearn.model_selection import train_test_split
@@ -83,7 +89,9 @@ x = train.drop(['output'], axis=1)
 y = train["output"]
 x_train, x_val, y_train, y_val = train_test_split(x, y, test_size = 0.22, random_state = 0)
 
-    
+zin = test.drop(['output'], axis=1)
+zout = test["output"]
+
 # Gaussian Naive Bayes
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
@@ -92,6 +100,18 @@ gaussian.fit(x_train, y_train)
 y_pred = gaussian.predict(x_val)
 acc_gaussian = round(accuracy_score(y_pred, y_val) * 100, 2)
 print(acc_gaussian)
+
+
+z_pred = gaussian.predict(zin)
+acc_gaussian = round(accuracy_score(z_pred, zout) * 100, 2)
+print(acc_gaussian)
+
+
+#confusion metrix
+from sklearn.model_selection import cross_val_predict
+from sklearn.metrics import confusion_matrix
+predictions = cross_val_predict(gaussian, x_train, y_train, cv=3)
+CM = confusion_matrix(y_train, predictions)
     
 # Logistic Regression
 from sklearn.linear_model import LogisticRegression
@@ -185,19 +205,17 @@ hm = sns.heatmap(cm, cbar=True, annot=True, square=True, fmt='.2f', annot_kws={'
 plt.show()
 
 
-#obb score (out of bag score)
-#print("oob score:", round(random_forest.oob_score_, 4)*100, "%")
-
+print("oob score:", round(randomforest.oob_score_, 4)*100, "%")
 
 #confusion metrix
-'''from sklearn.model_selection import cross_val_predict
+from sklearn.model_selection import cross_val_predict
 from sklearn.metrics import confusion_matrix
-predictions = cross_val_predict(random_forest, x_train_def, y_train_def, cv=3)
-CM = confusion_matrix(y_train_def, predictions)
+predictions = cross_val_predict(gaussian, x_train, y_train, cv=3)
+CM = confusion_matrix(y_train, predictions)
 #precision and recall
 from sklearn.metrics import precision_score, recall_score
 print("Precision:", precision_score(y_train_def, predictions))
 print("Recall:",recall_score(y_train_def, predictions))
 #f1 score
 from sklearn.metrics import f1_score
-f1_score(y_train_def, predictions)'''
+f1_score(y_train_def, predictions)

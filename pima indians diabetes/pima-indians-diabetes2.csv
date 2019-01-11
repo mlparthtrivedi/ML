@@ -183,21 +183,3 @@ cm = np.corrcoef(data[cols].values.T)
 sns.set(font_scale=1.25)
 hm = sns.heatmap(cm, cbar=True, annot=True, square=True, fmt='.2f', annot_kws={'size': 10}, yticklabels=cols.values, xticklabels=cols.values)
 plt.show()
-
-
-#obb score (out of bag score)
-#print("oob score:", round(random_forest.oob_score_, 4)*100, "%")
-
-
-#confusion metrix
-'''from sklearn.model_selection import cross_val_predict
-from sklearn.metrics import confusion_matrix
-predictions = cross_val_predict(random_forest, x_train_def, y_train_def, cv=3)
-CM = confusion_matrix(y_train_def, predictions)
-#precision and recall
-from sklearn.metrics import precision_score, recall_score
-print("Precision:", precision_score(y_train_def, predictions))
-print("Recall:",recall_score(y_train_def, predictions))
-#f1 score
-from sklearn.metrics import f1_score
-f1_score(y_train_def, predictions)'''
