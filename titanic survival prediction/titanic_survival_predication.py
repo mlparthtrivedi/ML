@@ -100,7 +100,7 @@ for dataset in data:
     dataset['Title'] = dataset['Title'].map(title_mapping)
     dataset['Title'] = dataset['Title'].fillna(0)
     
-d above is from here. Next, we'll try to predict the missing Age values from the most common age for their Title.
+#d above is from here. Next, we'll try to predict the missing Age values from the most common age for their Title.
 
 # fill missing age with mode age group for each title
 mr_age = train[train["Title"] == 1]["AgeGroup"].mode() #Young Adult
