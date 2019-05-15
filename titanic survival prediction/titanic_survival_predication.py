@@ -24,7 +24,7 @@ nan_value_detail = pd.isnull(train).sum();
 #Data Visualization
 
 #draw a bar plot of survival by sex
-sns.barplot(x="Sex", y="Survived", data=train)
+  sns.barplot(x="Sex", y="Survived", data=train)
 #print percentages of females vs. males that survive
 print("Percentage of females who survived:", train["Survived"][train["Sex"] == 'female'].value_counts(normalize = True)[1]*100)
 print("Percentage of males who survived:", train["Survived"][train["Sex"] == 'male'].value_counts(normalize = True)[1]*100)
